@@ -17,15 +17,34 @@ class DefaultController extends Controller
 {
 
     /**
-     * @Route("/{id}", name="homepage")
+     * @Route("/", name="index")
      */
-    public function index(int $id): Response
+    public function index(): Response
     {
-        dump($id);
-        return $this->render('default/index.html.twig',
-            [
-                'id' => $id,
-            ]
-        );
+        return $this->render('index.html.twig');
+    }
+
+    /**
+     * @Route("/home", name="homepage")
+     */
+    public function home(): Response
+    {
+        return $this->render('game/home.html.twig');
+    }
+
+    /**
+     * @Route("/won", name="won")
+     */
+    public function won(): Response
+    {
+        return $this->render('game/won.html.twig');
+    }
+
+    /**
+     * @Route("/failed", name="failed")
+     */
+    public function failed(): Response
+    {
+        return $this->render('game/failed.html.twig');
     }
 }
