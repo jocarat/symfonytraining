@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hangman Game</title>
-    <link rel="stylesheet" href="/build/app.cf12ff819bddb8b7d35c911e4dc50f87.css">
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
     <link rel="shortcut icon" href="/favicon.ico" />
 </head>
 <body>
@@ -13,7 +13,7 @@
         <div class="col-md-4">
             <div id="logo">
                 <h1>
-                    <a href="../index.html">Hangman</a>
+                    <a href="{{ path('index') }}">Hangman</a>
                 </h1>
             </div>
         </div>
@@ -30,7 +30,7 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="./home.html">Game</a>
+                        <a href="{{ path('game') }}">Game</a>
                     </li>
                     <li>
                         <a href="">Register</a>
@@ -76,84 +76,11 @@
                 <h2>Try a letter</h2>
 
                 <ul>
-                    <li class="letter btn">
-                        <a href="">A</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">B</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">C</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">D</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">E</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">F</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">G</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">H</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">I</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">J</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">K</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">L</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">M</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">N</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">O</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">P</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">Q</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">R</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">S</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">T</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">U</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">V</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">W</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">X</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">Y</a>
-                    </li>
-                    <li class="letter btn">
-                        <a href="">Z</a>
-                    </li>
+                    {% for letter in 'A'..'Z' %}
+                        <li class="letter btn">
+                            <a href="{{ path('game_play_letter', {'letter' : letter}) }}">{{ letter }}</a>
+                        </li>
+                    {% endfor %}
                 </ul>
 
                 <h2>Try a word</h2>

@@ -21,30 +21,6 @@ class DefaultController extends Controller
      */
     public function index(): Response
     {
-        return $this->render('index.html.twig');
-    }
-
-    /**
-     * @Route("/home", name="homepage")
-     */
-    public function home(): Response
-    {
-        return $this->render('game/home.html.twig');
-    }
-
-    /**
-     * @Route("/won", name="won")
-     */
-    public function won(): Response
-    {
-        return $this->render('game/won.html.twig');
-    }
-
-    /**
-     * @Route("/failed", name="failed")
-     */
-    public function failed(): Response
-    {
-        return $this->render('game/failed.html.twig');
+        return $this->render('default/index.html.twig');
     }
 }
