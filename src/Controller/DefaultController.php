@@ -17,10 +17,15 @@ class DefaultController extends Controller
 {
 
     /**
-     * @Route("/", name="homepage")
+     * @Route("/{id}", name="homepage")
      */
-    public function index(): Response
+    public function index(int $id): Response
     {
-        return $this->render('default/index.html.twig');
+        dump($id);
+        return $this->render('default/index.html.twig',
+            [
+                'id' => $id,
+            ]
+        );
     }
 }
