@@ -28,13 +28,9 @@ class GameController extends Controller
     {
         $game = $this->getGameRunner()->loadGame();
         dump($game);
-        dump($game->getWordLetters());
 
-        $word_letters = $game->getWordLetters();
         return $this->render('game/home.html.twig', [
             'game' => $game,
-            'word_letters' => $word_letters,
-            'max_attempts' => 11,
         ]);
     }
 
@@ -43,7 +39,10 @@ class GameController extends Controller
      */
     public function won(): Response
     {
-        return $this->render('game/won.html.twig');
+        $game = $this->getGameRunner()->loadGame();
+        return $this->render('game/won.html.twig', [
+            'game' => $game,
+        ]);
     }
 
     /**
@@ -51,7 +50,21 @@ class GameController extends Controller
      */
     public function failed(): Response
     {
-        return $this->render('game/failed.html.twig');
+        $game = $this->getGameRunner()->loadGame();
+        $this->getGameRunner()->resetGame();
+        return $this->render('game/failed.html.twig', [
+            'game' => $game,
+        ]);
+    }
+
+
+    /**
+     * @Route("/reset_game", name="reset_game")
+     */
+    public function resetGame(): Response
+    {
+        $this->getGameRunner()->resetGame();
+        return $this->redirectToRoute('game');
     }
 
     /**
@@ -62,9 +75,15 @@ class GameController extends Controller
      */
     public function playLetter(string $letter): RedirectResponse
     {
-        dump($letter);
-
         $game = $this->getGameRunner()->playLetter($letter);
+        if ($game->isHanged())
+        {
+            return $this->redirectToRoute('failed', ['letter' => $letter]);
+        }
+        elseif ($game->isWon())
+        {
+            return $this->redirectToRoute('won', ['letter' => $letter]);
+        }
         return $this->redirectToRoute('game', ['letter' => $letter]);
     }
 

@@ -1,4 +1,4 @@
-{% extends 'default/index.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block content %}
     <div class="col-md-8">
@@ -6,7 +6,11 @@
             <h2>Game Over!</h2>
 
             <p>
-                Oops, you're hanged... The word to guess was <strong>XXXXXXXXXXXX</strong>
+                Oops, you're hanged... The word to guess was <strong>{{ game.word }}</strong>
+            </p>
+
+            <p>
+                <a href="{{ path('reset_game') }}" class="btn btn-default">Play again!</a>
             </p>
         </div>
     </div>
