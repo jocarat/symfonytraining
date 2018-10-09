@@ -16,6 +16,7 @@ use App\Game\Storage;
 use App\Game\WordList;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -29,7 +30,7 @@ class GameController extends Controller
         $game = $this->getGameRunner()->loadGame();
         dump($game);
 
-        return $this->render('game/home.html.twig', [
+        return $this->render('game/game.html.twig', [
             'game' => $game,
         ]);
     }
@@ -51,7 +52,6 @@ class GameController extends Controller
     public function failed(): Response
     {
         $game = $this->getGameRunner()->loadGame();
-        $this->getGameRunner()->resetGame();
         return $this->render('game/failed.html.twig', [
             'game' => $game,
         ]);
@@ -71,7 +71,8 @@ class GameController extends Controller
      * @Route(
      *     "/game/play/{letter}",
      *     name="game_play_letter",
-     *     requirements={"letter"="[a-zA-Z]"})
+     *     requirements={"letter"="[a-zA-Z]"},
+     *     )
      */
     public function playLetter(string $letter): RedirectResponse
     {
@@ -85,6 +86,28 @@ class GameController extends Controller
             return $this->redirectToRoute('won', ['letter' => $letter]);
         }
         return $this->redirectToRoute('game', ['letter' => $letter]);
+    }
+
+    /**
+     * @Route(
+     *     "/game/play_word",
+     *     name="game_play_word",
+     *     condition="request.request.has('word')",
+     *     )
+     */
+    public function playWord(Request $request): RedirectResponse
+    {
+        $word = $request->request->get('word');
+        $game = $this->getGameRunner()->playWord($word);
+        if ($game->isHanged())
+        {
+            return $this->redirectToRoute('failed');
+        }
+        elseif ($game->isWon())
+        {
+            return $this->redirectToRoute('won');
+        }
+        return $this->redirectToRoute('game', ['word' => $word]);
     }
 
     private function getGameRunner(): Runner
