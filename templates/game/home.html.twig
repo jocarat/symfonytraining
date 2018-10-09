@@ -10,15 +10,17 @@
             <h2>Guess the mysterious word</h2>
 
             <p class="attempts">
-                You still have 11 remaining attempts.
+                You still have {{ max_attempts - game.attempts }} remaining attempts.
             </p>
 
             <ul class="word-letters">
-                <li class="not-guessed">?</li>
-                <li class="not-guessed">?</li>
-                <li class="not-guessed">?</li>
-                <li class="not-guessed">?</li>
-                <li class="not-guessed">?</li>
+                {% for word_letter in word_letters %}
+                    {%  if game.isLetterFound(word_letter) %}
+                        <li class="guessed">{{ word_letter }}</li>
+                    {% else %}
+                        <li class="not-guessed">?</li>
+                    {% endif %}
+                {% endfor %}
             </ul>
 
             <p class="attempts">

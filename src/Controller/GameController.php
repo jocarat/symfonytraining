@@ -28,8 +28,13 @@ class GameController extends Controller
     {
         $game = $this->getGameRunner()->loadGame();
         dump($game);
+        dump($game->getWordLetters());
+
+        $word_letters = $game->getWordLetters();
         return $this->render('game/home.html.twig', [
             'game' => $game,
+            'word_letters' => $word_letters,
+            'max_attempts' => 11,
         ]);
     }
 
@@ -58,6 +63,8 @@ class GameController extends Controller
     public function playLetter(string $letter): RedirectResponse
     {
         dump($letter);
+
+        $game = $this->getGameRunner()->playLetter($letter);
         return $this->redirectToRoute('game', ['letter' => $letter]);
     }
 
