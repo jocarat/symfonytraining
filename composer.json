@@ -9,8 +9,10 @@
         "symfony/console": "*",
         "symfony/expression-language": "*",
         "symfony/flex": "^1.1",
+        "symfony/form": "*",
         "symfony/framework-bundle": "*",
         "symfony/twig-bundle": "*",
+        "symfony/validator": "*",
         "symfony/webpack-encore-pack": "^1.0",
         "symfony/yaml": "*"
     },

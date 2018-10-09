@@ -20,10 +20,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/game")
+ */
 class GameController extends Controller
 {
+    const LETTER = 'letter';
     /**
-     * @Route("/game", name="game")
+     * @Route("", name="game")
      */
     public function home(): Response
     {
@@ -59,7 +63,7 @@ class GameController extends Controller
 
 
     /**
-     * @Route("/reset_game", name="reset_game")
+     * @Route("/reset", name="reset_game")
      */
     public function resetGame(): Response
     {
@@ -69,7 +73,7 @@ class GameController extends Controller
 
     /**
      * @Route(
-     *     "/game/play/{letter}",
+     *     "/play/{letter}",
      *     name="game_play_letter",
      *     requirements={"letter"="[a-zA-Z]"},
      *     )
@@ -79,18 +83,18 @@ class GameController extends Controller
         $game = $this->getGameRunner()->playLetter($letter);
         if ($game->isHanged())
         {
-            return $this->redirectToRoute('failed', ['letter' => $letter]);
+            return $this->redirectToRoute('failed', [self::LETTER => $letter]);
         }
         elseif ($game->isWon())
         {
-            return $this->redirectToRoute('won', ['letter' => $letter]);
+            return $this->redirectToRoute('won', [self::LETTER => $letter]);
         }
-        return $this->redirectToRoute('game', ['letter' => $letter]);
+        return $this->redirectToRoute('game', [self::LETTER => $letter]);
     }
 
     /**
      * @Route(
-     *     "/game/play_word",
+     *     "/play_word",
      *     name="game_play_word",
      *     condition="request.request.has('word')",
      *     )
@@ -126,8 +130,6 @@ class GameController extends Controller
         $xmlFileLoader = new XmlFileLoader();
         $wordList->addLoader($xmlFileLoader);
 
-        $runner = new Runner($storage, $wordList);
-
-        return $runner;
+        return new Runner($storage, $wordList);
     }
 }
