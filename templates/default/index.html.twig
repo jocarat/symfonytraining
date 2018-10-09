@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="container">
+    {% block header %}
     <header class="row">
         <div class="col-md-4">
             <div id="logo">
@@ -44,7 +45,9 @@
             </nav>
         </div>
     </header>
+    {% endblock %}
     <div class="row">
+        {% block content %}
         <div class="col-md-8">
             <div id="homepage" class="box">
                 HOMEPAGE
@@ -60,7 +63,9 @@
                 </div>
             </div>
         </div>
+        {% endblock %}
         <div class="col-md-4">
+            {% block sidebar %}
             <div id="sidebar">
                 <div class="box">
                     <h3>Last Games</h3>
@@ -84,6 +89,7 @@
                     </ul>
                 </div>
             </div>
+            {% endblock %}
         </div>
     </div>
 </div>
