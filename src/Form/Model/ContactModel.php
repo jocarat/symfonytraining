@@ -9,30 +9,43 @@
 namespace App\Form\Model;
 
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class ContactModel
 {
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      */
     public $firstname;
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      */
     public $lastname;
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Email(checkMX=true, message="Mauvais domaine")
      */
     public $email;
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      */
     public $subject;
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      */
     public $message;
 }
