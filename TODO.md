@@ -13,3 +13,16 @@ Architecture
     3. Ensure the letter **is** a letter.
     4. Dump the letter.
     5. Redirect to the game homepage.
+
+Twig
+----
+
+1. Update the game homepage to use dynamic syntax.
+    1. Display the right remaining attempts.
+    2. Display as many "?" as there are letters
+       in the word of the game.
+    3. Display either the letter or "?" in the game,
+       depending on if the letter has been guessed or not.
+    4. Display the letters from A to Z from a loop.
+2. Use a layout.
+3. Export the menu section in a template.
