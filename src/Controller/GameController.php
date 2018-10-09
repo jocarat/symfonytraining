@@ -9,7 +9,13 @@
 namespace App\Controller;
 
 
+use App\Game\Loader\TextFileLoader;
+use App\Game\Loader\XmlFileLoader;
+use App\Game\Runner;
+use App\Game\Storage;
+use App\Game\WordList;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,7 +26,11 @@ class GameController extends Controller
      */
     public function home(): Response
     {
-        return $this->render('game/home.html.twig');
+        $game = $this->getGameRunner()->loadGame();
+        dump($game);
+        return $this->render('game/home.html.twig', [
+            'game' => $game,
+        ]);
     }
 
     /**
@@ -45,9 +55,30 @@ class GameController extends Controller
      *     name="game_play_letter",
      *     requirements={"letter"="[a-zA-Z]"})
      */
-    public function playLetter(string $letter)
+    public function playLetter(string $letter): RedirectResponse
     {
         dump($letter);
         return $this->redirectToRoute('game', ['letter' => $letter]);
+    }
+
+    private function getGameRunner(): Runner
+    {
+        $session = $this->get('session');
+        $storage = new Storage($session);
+
+        $wordList = new WordList([
+            $this->getParameter('kernel.project_dir') . '/data/words.txt',
+            $this->getParameter('kernel.project_dir') . '/data/words.xml',
+        ]);
+
+        $textFileLoader = new TextFileLoader();
+        $wordList->addLoader($textFileLoader);
+
+        $xmlFileLoader = new XmlFileLoader();
+        $wordList->addLoader($xmlFileLoader);
+
+        $runner = new Runner($storage, $wordList);
+
+        return $runner;
     }
 }
