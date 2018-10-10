@@ -116,20 +116,6 @@ class GameController extends Controller
 
     private function getGameRunner(): Runner
     {
-        $session = $this->get('session');
-        $storage = new Storage($session);
-
-        $wordList = new WordList([
-            $this->getParameter('kernel.project_dir') . '/data/words.txt',
-            $this->getParameter('kernel.project_dir') . '/data/words.xml',
-        ]);
-
-        $textFileLoader = new TextFileLoader();
-        $wordList->addLoader($textFileLoader);
-
-        $xmlFileLoader = new XmlFileLoader();
-        $wordList->addLoader($xmlFileLoader);
-
-        return new Runner($storage, $wordList);
+        return $this->container->get(Runner::class);
     }
 }
