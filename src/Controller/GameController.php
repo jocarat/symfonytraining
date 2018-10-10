@@ -8,12 +8,7 @@
 
 namespace App\Controller;
 
-
-use App\Game\Loader\TextFileLoader;
-use App\Game\Loader\XmlFileLoader;
 use App\Game\Runner;
-use App\Game\Storage;
-use App\Game\WordList;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,9 +24,9 @@ class GameController extends Controller
     /**
      * @Route("", name="game")
      */
-    public function home(): Response
+    public function home(Runner $runner): Response
     {
-        $game = $this->getGameRunner()->loadGame();
+        $game = $runner->loadGame();
         dump($game);
 
         return $this->render('game/game.html.twig', [
@@ -42,9 +37,9 @@ class GameController extends Controller
     /**
      * @Route("/won", name="won")
      */
-    public function won(): Response
+    public function won(Runner $runner): Response
     {
-        $game = $this->getGameRunner()->loadGame();
+        $game = $runner->loadGame();
         return $this->render('game/won.html.twig', [
             'game' => $game,
         ]);
@@ -53,21 +48,20 @@ class GameController extends Controller
     /**
      * @Route("/failed", name="failed")
      */
-    public function failed(): Response
+    public function failed(Runner $runner): Response
     {
-        $game = $this->getGameRunner()->loadGame();
+        $game = $runner->loadGame();
         return $this->render('game/failed.html.twig', [
             'game' => $game,
         ]);
     }
 
-
     /**
      * @Route("/reset", name="reset_game")
      */
-    public function resetGame(): Response
+    public function resetGame(Runner $runner): Response
     {
-        $this->getGameRunner()->resetGame();
+        $runner->resetGame();
         return $this->redirectToRoute('game');
     }
 
@@ -78,9 +72,9 @@ class GameController extends Controller
      *     requirements={"letter"="[a-zA-Z]"},
      *     )
      */
-    public function playLetter(string $letter): RedirectResponse
+    public function playLetter(Runner $runner, string $letter): RedirectResponse
     {
-        $game = $this->getGameRunner()->playLetter($letter);
+        $game = $runner->playLetter($letter);
         if ($game->isHanged())
         {
             return $this->redirectToRoute('failed', [self::LETTER => $letter]);
@@ -99,10 +93,10 @@ class GameController extends Controller
      *     condition="request.request.has('word')",
      *     )
      */
-    public function playWord(Request $request): RedirectResponse
+    public function playWord(Runner $runner, Request $request): RedirectResponse
     {
         $word = $request->request->get('word');
-        $game = $this->getGameRunner()->playWord($word);
+        $game = $runner->playWord($word);
         if ($game->isHanged())
         {
             return $this->redirectToRoute('failed');
@@ -112,10 +106,5 @@ class GameController extends Controller
             return $this->redirectToRoute('won');
         }
         return $this->redirectToRoute('game', ['word' => $word]);
-    }
-
-    private function getGameRunner(): Runner
-    {
-        return $this->container->get('game_runner');
     }
 }
