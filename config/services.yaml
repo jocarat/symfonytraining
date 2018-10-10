@@ -21,11 +21,9 @@ services:
           - ['addLoader', ['@App\Game\Loader\XmlFileLoader']]
       public: true
 
-   App\Game\Loader\TextFileLoader:
-      public: true
+   App\Game\Loader\TextFileLoader: ~
 
-   App\Game\Loader\XmlFileLoader:
-      public: true
+   App\Game\Loader\XmlFileLoader: ~
 
    App\Game\Runner:
       arguments:
