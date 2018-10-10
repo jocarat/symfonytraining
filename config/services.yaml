@@ -11,7 +11,7 @@ services:
    App\Game\Storage:
       arguments:
         - '@session'
-      public: true
+      public: false
 
    App\Game\WordList:
       arguments:
@@ -19,14 +19,21 @@ services:
       calls:
           - ['addLoader', ['@App\Game\Loader\TextFileLoader']]
           - ['addLoader', ['@App\Game\Loader\XmlFileLoader']]
-      public: true
+      public: false
 
-   App\Game\Loader\TextFileLoader: ~
+   App\Game\Loader\TextFileLoader:
+      public: false
 
-   App\Game\Loader\XmlFileLoader: ~
+   App\Game\Loader\XmlFileLoader:
+      public: false
 
    App\Game\Runner:
       arguments:
-        - '@App\Game\Storage'
-        - '@App\Game\WordList'
+        $wordList: '@App\Game\WordList'
+        $storage: '@App\Game\Storage'
+      public: false
+
+    #game_runner: '@App\Game\Runner' alias peu flexible
+   game_runner:
+      alias: 'App\Game\Runner'
       public: true

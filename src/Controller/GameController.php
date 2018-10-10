@@ -116,6 +116,6 @@ class GameController extends Controller
 
     private function getGameRunner(): Runner
     {
-        return $this->container->get(Runner::class);
+        return $this->container->get('game_runner');
     }
 }
