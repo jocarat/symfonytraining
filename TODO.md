@@ -26,3 +26,8 @@ Twig
     4. Display the letters from A to Z from a loop.
 2. Use a layout.
 3. Export the menu section in a template.
+
+Services
+--------
+
+1. Use `services.yml` to define the `GameRunner` in order to declare it as a service instead of building it manually.
