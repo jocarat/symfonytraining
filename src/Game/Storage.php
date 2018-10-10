@@ -3,14 +3,18 @@
 namespace App\Game;
 
 use App\Game\Exception\LoadingException;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Storage
 {
     private const STORAGE_KEY = 'hangman';
 
+    /**
+     * @var SessionInterface
+     */
     private $session;
 
-    public function __construct($session)
+    public function __construct(SessionInterface $session)
     {
         $this->session = $session;
     }

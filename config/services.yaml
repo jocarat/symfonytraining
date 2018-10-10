@@ -5,35 +5,27 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    data_dir: '%kernel.project_dir%'
+    data_dir: '%kernel.project_dir%/data'
 
 services:
-   App\Game\Storage:
-      arguments:
-        - '@session'
+   _defaults:
       public: false
+      autowire: true
+
+   App\:
+      resource: '%kernel.project_dir%/src'
+
+   _instanceof:
+      App\Game\Loader\LoaderInterface:
+          tags: ['game.loader']
 
    App\Game\WordList:
       arguments:
-          - ['%data_dir%/data/words.txt','%data_dir%/data/words.xml']
+          - ['%data_dir%/words.txt','%data_dir%/words.xml']
       calls:
-          - ['addLoader', ['@App\Game\Loader\TextFileLoader']]
-          - ['addLoader', ['@App\Game\Loader\XmlFileLoader']]
-      public: false
+          - ['setLoaders', [!tagged 'game.loader']]
 
-   App\Game\Loader\TextFileLoader:
-      public: false
-
-   App\Game\Loader\XmlFileLoader:
-      public: false
-
-   App\Game\Runner:
-      arguments:
-        $wordList: '@App\Game\WordList'
-        $storage: '@App\Game\Storage'
-      public: false
-
-    #game_runner: '@App\Game\Runner' alias peu flexible
+   #game_runner: '@App\Game\Runner' alias peu flexible
    game_runner:
       alias: 'App\Game\Runner'
       public: true

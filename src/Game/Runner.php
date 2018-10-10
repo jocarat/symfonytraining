@@ -8,10 +8,17 @@ use App\Game\Exception\RuntimeException;
 
 class Runner
 {
+    /**
+     * @var Storage
+     */
     private $storage;
+
+    /**
+     * @var WordList
+     */
     private $wordList;
 
-    public function __construct($storage, $wordList)
+    public function __construct(Storage $storage, WordList $wordList)
     {
         $this->storage = $storage;
         $this->wordList = $wordList;
