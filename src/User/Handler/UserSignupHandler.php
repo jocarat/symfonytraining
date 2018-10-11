@@ -11,26 +11,24 @@ namespace App\User\Handler;
 
 use App\Entity\User;
 use App\User\Form\RegisterModel;
-use Doctrine\Common\Persistence\ObjectManager;
+use App\User\Manager\UserManager;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class UserSignupHandler
+class UserSignupHandler extends Controller
 {
-    /**
-     * @var ObjectManager
-     */
-    private $manager;
+    private $userManager;
 
-    public function __construct(ObjectManager $manager)
+    public function __construct(UserManager $userManager)
     {
-        $this->manager = $manager;
+        $this->userManager = $userManager;
     }
+
     public function handleRegisterModel(RegisterModel $data)
     {
         $user = new User();
         $user->setUsername($data->username);
         $user->setPassword($data->password);
-        dump($user);
-        $this->manager->persist($user);
-        $this->manager->flush();
+
+        $this->userManager->createUser($user);
     }
 }

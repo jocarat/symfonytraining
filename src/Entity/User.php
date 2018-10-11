@@ -41,28 +41,47 @@ class User
      */
     private $password;
 
+    /**
+     * @return int
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsername():string
+    /**
+     * @return string
+     */
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    public function setUsername($username): void
+    /**
+     * @param string $username
+     * @return User
+     */
+    public function setUsername(string $username): User
     {
         $this->username = $username;
+        return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function setPassword($password): void
+    /**
+     * @param string $password
+     * @return User
+     */
+    public function setPassword(string $password): User
     {
         $this->password = $password;
+        return $this;
     }
 }

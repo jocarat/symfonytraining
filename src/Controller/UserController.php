@@ -29,9 +29,17 @@ class UserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()){
             /** @var RegisterModel $user */
+
+            $this->container
+                ->get('usersignup_handler')
+                ->handleRegisterModel($form->getData());
+
+            /* version simple
             $user = $form->getData();
-            $usersignup_handler = $this->container->get('usersignup_handler');
-            $usersignup_handler->handleRegisterModel($user);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            */
         }
 
         return $this->render('default/signup.html.twig', [
