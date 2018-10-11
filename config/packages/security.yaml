@@ -18,6 +18,9 @@ security:
               login_path: app_login
               check_path: app_login
 
+            logout:
+              path: app_logout
+
             # activate different ways to authenticate
 
             # http_basic: true
