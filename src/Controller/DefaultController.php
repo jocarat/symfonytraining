@@ -45,4 +45,5 @@ class DefaultController extends Controller
             'contact_form' => $form->createView(),
         ]);
     }
+
 }

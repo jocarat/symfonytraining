@@ -38,3 +38,7 @@ services:
    game_runner:
       alias: 'App\Game\Runner'
       public: true
+
+   usersignup_handler:
+      alias: 'App\User\Handler\UserSignupHandler'
+      public: true
