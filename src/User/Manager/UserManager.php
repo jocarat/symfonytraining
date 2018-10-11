@@ -19,6 +19,8 @@ class UserManager
      */
     private $manager;
 
+
+
     public function __construct(ObjectManager $manager)
     {
         $this->manager = $manager;
