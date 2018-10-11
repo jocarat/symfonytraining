@@ -3,13 +3,20 @@ security:
     encoders:
         App\Entity\User: bcrypt
     providers:
-        in_memory: { memory: ~ }
+        db:
+            entity:
+                class: App\Entity\User
+                property: username
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            form_login:
+              login_path: app_login
+              check_path: app_login
 
             # activate different ways to authenticate
 
