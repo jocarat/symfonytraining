@@ -9,6 +9,8 @@
 namespace App\Controller;
 
 use App\Game\Runner;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,19 +18,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * Class GameController
+ *
  * @Route("/game")
+ * @@IsGranted("ROLE_PLAYER")
  */
 class GameController extends Controller
 {
     const LETTER = 'letter';
     /**
      * @Route("", name="game")
+     * @Security("has_role('ROLE_USER')")
      */
     public function home(Runner $runner): Response
     {
-        $game = $runner->loadGame();
-        dump($game);
 
+        $game = $runner->loadGame();
+
+        dump($game);
         return $this->render('game/game.html.twig', [
             'game' => $game,
         ]);
